@@ -4,11 +4,6 @@ function optionChanged(selectedID) {
 async function main () {
     const response = await fetch("../data/samples.json");
     const data = await response.json();
-
-//Demographics
-    var metadata = data.metadata;
-      console.log(metadata);
-
 // Bar Chart
 const idSample = data.samples.filter(item => parseInt(item.id) == selectedID);
 var sampleValue = idSample[0].sample_values.slice(0,10);
@@ -68,4 +63,6 @@ width: 1800
 
 Plotly.newPlot('bubble', [trace1], layout1);
 }
-main();}
+
+}
+main();
