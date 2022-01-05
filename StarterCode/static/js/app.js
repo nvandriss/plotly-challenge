@@ -4,8 +4,11 @@ function optionChanged(selectedID) {
 async function main () {
     const response = await fetch("../data/samples.json");
     const data = await response.json();
-const idmetadata = data.metadata.filter(item=> (item.id == selectedID));
-console.log(idmetadata);
+
+//Demographics
+    var metadata = data.metadata;
+      console.log(metadata);
+
 // Bar Chart
 const idSample = data.samples.filter(item => parseInt(item.id) == selectedID);
 var sampleValue = idSample[0].sample_values.slice(0,10);
@@ -25,7 +28,7 @@ const yAxis = otuID.map(item => 'OTU' + " " + item);
    orientation: "h",
    text:  otuLabels,
    marker: {
-      color: 'rgb(154, 140, 152)',
+      color: 'rgb(245, 66, 167)',
       line: {
          width: 3
      }
@@ -55,7 +58,7 @@ marker: {
 },
 
 layout1 = {
-title: '<b>Bubble Chart For Each Sample</b>',
+title: '<b>Bubble Chart/b>',
 xaxis: {title: 'OTU ID'},
 yaxis: {title: 'Number of Samples Collected'},
 showlegend: false,
