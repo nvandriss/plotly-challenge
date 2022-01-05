@@ -53,7 +53,7 @@ marker: {
 },
 
 layout1 = {
-title: '<b>Bubble Chart/b>',
+title: '<b>Bubble Chart</b>',
 xaxis: {title: 'OTU ID'},
 yaxis: {title: 'Number of Samples Collected'},
 showlegend: false,
@@ -63,6 +63,4 @@ width: 1800
 
 Plotly.newPlot('bubble', [trace1], layout1);
 }
-
-}
-main();
+main()}
