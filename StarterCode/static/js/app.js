@@ -1,66 +1,67 @@
 //Fetch Library
+function optionChanged(selectedID){
+    console.log(selectedID);
 async function main() {
-    const response = await fetch("../data/samples/.json");
+    const response = await fetch("../data/samples.json");
     const data = await response.json();
-    console.log(data);
-}
-
-function buildCharts(sample_values) {
-//Arrays
-const sample_values = Object.keys(data.sample_values);
-const otu_ids = Object.values(data.samples.otu_ids)
-const otu_labels = Object.values(data.samples.otu_labels)
-
+    console.log(data);}
+const idMetadata = data.metadata.filter(item=> (item.id == selectedID));
+console.log(idMetadata);
 // Bar Chart
-let bubbleLayout = {
-    margin: { t: 0 },
-    hovermode: "closests",
-    xaxis: { title: "OTU ID"}
-  }
+const idSample = data.samples.filter(item => parseInt(item.id) == selectedID);
+var sampleValue = idSample[0].sample_values.slice(0,10);
+sampleValue= sampleValue.reverse();
+var otuID = idSample[0].otu_ids.slice(0,10);
+otuID = otuID.reverse();
+var otuLabels = idSample[0].otu_labels
+otuLabels = otuLabels.reverse();
 
-  let bubbleData = [
-    {
-      x: otu_ids,
-      y: sample_values,
-      text: otu_labels,
-      mode: "markers",
-      marker: {
-        size: sample_values,
-        color: otu_ids,
-        colorscale: "Earth"
-      }
-    }
-  ]
+const yAxis = otuID.map(item => 'OTU' + " " + item);
+    console.log(yAxis);
 
-  Plotly.plot("bubble", bubbleData, bubbleLayout);
-  let pieData = [
-    {
-      values: sample_values.slice(0, 10),
-      labels: otu_ids.slice(0, 10),
-      hovertext: otu_labels.slice(0, 10),
-      hoverinfo: "hovertext",
-      type: "pie"
+   const trace = {
+   y: yAxis,
+   x: sampleValue,
+   type: 'bar',
+   orientation: "h",
+   text:  otuLabels,
+   marker: {
+      color: 'rgb(154, 140, 152)',
+      line: {
+         width: 3
+     }
     }
-  ];
+   },
+   layout = {
+   title: 'Top 10 Operational Taxonomic Units (OTU)/Individual',
+   xaxis: {title: 'Number of Samples Collected'},
+   yaxis: {title: 'OTU ID'}
+   };
+
+   Plotly.newPlot('bar', [trace], layout,  {responsive: true});    
+   
+// BUBBLE CHART
+var sampleValue1 =idSample[0].sample_values;
+var otuID1= idSample[0].otu_ids;
+
+const trace1 = {
+x: otuID1,
+y: sampleValue1,
+mode: 'markers',
+marker: {
+  color: otuID1,
   
-  let pieLayout = {
-    margin: { t: 0, l: 0 }
-  };
-
-  Plotly.plot("pie", pieData, pieLayout)
+  size: sampleValue1
 }
+},
 
-function init() {
+layout1 = {
+title: '<b>Bubble Chart For Each Sample</b>',
+xaxis: {title: 'OTU ID'},
+yaxis: {title: 'Number of Samples Collected'},
+showlegend: false,
+height: 800,
+width: 1800
+};
 
-}
-const firstSample = sampleNames[0];
-    buildCharts(firstSample);
-    buildMetadata(firstSample);
-
-
-function optionChanged(newSample) {
-  buildCharts(newSample);
-  buildMetadata(newSample);
-}
-
-main();
+Plotly.newPlot('bubble', [trace1], layout1);}
