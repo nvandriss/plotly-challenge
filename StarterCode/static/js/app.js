@@ -1,12 +1,11 @@
 //Fetch Library
-function optionChanged(selectedID){
+function optionChanged(selectedID) {
     console.log(selectedID);
-async function main() {
+async function main () {
     const response = await fetch("../data/samples.json");
     const data = await response.json();
-    console.log(data);}
-const idMetadata = data.metadata.filter(item=> (item.id == selectedID));
-console.log(idMetadata);
+const idmetadata = data.metadata.filter(item=> (item.id == selectedID));
+console.log(idmetadata);
 // Bar Chart
 const idSample = data.samples.filter(item => parseInt(item.id) == selectedID);
 var sampleValue = idSample[0].sample_values.slice(0,10);
@@ -64,4 +63,6 @@ height: 800,
 width: 1800
 };
 
-Plotly.newPlot('bubble', [trace1], layout1);}
+Plotly.newPlot('bubble', [trace1], layout1);
+}
+main();}
